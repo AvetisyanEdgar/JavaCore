@@ -24,16 +24,16 @@ public class CharArrayExample {
         if (chars3[chars3.length - 1] == 'y' && chars3[chars3.length - 2] == 'l') {
             System.out.println(true);
         } else System.out.println(false);
-        boolean Bob = false;
+        boolean bob = false;
         char[] bobArray = {'b', 'a', 'b', 'o', 'l', 'a' };
         for (int i = 0; i < bobArray.length - 2; i++) {
             if (bobArray[i] == bobArray[i + 2]) {
-                Bob = true;
+                bob = true;
             }
         }
         System.out.println();
-        // для тогоб чтобы результат выводился один раз объявляем переменную Bob)
-        if (Bob) {
+        // для того чтобы результат выводился один раз объявляем переменную bob)
+        if (bob) {
             System.out.println("There is a Bob in array");
         } else System.out.println("There is no Bob in array");
         System.out.println();

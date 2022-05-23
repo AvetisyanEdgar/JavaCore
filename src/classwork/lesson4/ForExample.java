@@ -1,4 +1,4 @@
-package lesson4;
+package classwork.lesson4;
 
 public class ForExample {
     public static void main(String[] args) {

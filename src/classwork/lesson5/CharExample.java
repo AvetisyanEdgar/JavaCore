@@ -1,4 +1,4 @@
-package lesson5;
+package classwork.lesson5;
 
 public class CharExample {
 
