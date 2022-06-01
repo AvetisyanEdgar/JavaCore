@@ -2,7 +2,7 @@ package book.chapter5;
 
 public class Menu {
     //problems with IOException
-    public static void main(String[] args) {
+    public static void main(String[] args)
             throws java.io.IOException {
             char choice;
             do {
@@ -53,4 +53,4 @@ public class Menu {
             }
         }
     }
-}
+
