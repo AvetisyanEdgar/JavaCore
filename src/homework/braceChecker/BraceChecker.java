@@ -4,9 +4,11 @@ public class BraceChecker {
     // Stack class-ի օբյեկտը
     Stack stack = new Stack();
     boolean isCorrect = true;
-    private String text;
+    private final String text;
+    int pop;
 
     public BraceChecker(String text) {
+
         this.text = text;
     }
 
@@ -17,39 +19,44 @@ public class BraceChecker {
                 case '{':
                 case '[':
                     stack.push(text.charAt(i));
-            }
-        }
-        for (int i = text.length() - 1; i > 0; i--) {
-            switch (text.charAt(i)) {
+
+                    break;
                 case ')':
-                    if (stack.array[stack.index] != '(') {
+                    pop = stack.pop();
+
+                    if (pop != '(') {
                         // (th)-ն փակագծերով եմ գրել, քերականական մանրունքները անցնելու համար
-                        System.err.println("Closed ) but opened " + (char) stack.array[stack.index] + " at " + (i + 1) + "(th) letter");
+                        System.err.println("Closed ) but opened " + (char) pop + " at " + (i + 1) + "(th) letter");
                         isCorrect = false;
                     }
-                    stack.pop();
                     break;
 
                 case '}':
-                    if (stack.array[stack.index] != '{') {
-                        System.err.println("Closed } but opened " + (char) stack.array[stack.index] + " at " + (i + 1) + "(th) letter");
+
+                    pop = stack.pop();
+                    if (pop != '{') {
+                        System.err.println("Closed } but opened " + (char) pop + " at " + (i + 1) + "(th) letter");
                         isCorrect = false;
                     }
-                    stack.pop();
                     break;
 
                 case ']':
-                    if (stack.array[stack.index] != '[') {
-                        System.err.println("Closed ] but opened " + (char) stack.array[stack.index] + " at " + (i + 1) + "(th) letter");
+
+                    pop = stack.pop();
+                    if (pop != '[') {
+                        System.err.println("Closed ] but opened " + (char) pop + " at " + (i + 1) + "(th) letter");
                         isCorrect = false;
                     }
-                    stack.pop();
                     break;
             }
-
         }
-        if (isCorrect) System.out.println("All is correct");
+        if (stack.index == -1 && isCorrect) System.out.println("All is correct");
+        while (stack.index > -1) {
+            System.err.println((char)stack.pop() + " was opened, but not closed");
+        }
     }
+
 }
+
 
 

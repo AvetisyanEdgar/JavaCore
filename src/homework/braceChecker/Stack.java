@@ -17,7 +17,7 @@ public class Stack {
 
     int pop() {
         if (index < 0) {
-            System.err.println("Stack is empty");
+           // System.err.println("Stack is empty");
             return 0;
         } else return array[index--];
     }
