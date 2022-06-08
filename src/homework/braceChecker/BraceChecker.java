@@ -53,7 +53,7 @@ public class BraceChecker {
         if (stack.index == -1 && isCorrect) System.out.println("All is correct");
         while (stack.index > -1) {
 
-            System.err.println((char)stack.pop() + " was opened, but not closed ");
+            System.err.println((char)stack.pop() + " was opened, but not closed  ");
         }
     }
 
