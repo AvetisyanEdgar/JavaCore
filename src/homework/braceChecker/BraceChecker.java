@@ -23,7 +23,6 @@ public class BraceChecker {
                     break;
                 case ')':
                     pop = stack.pop();
-
                     if (pop != '(') {
                         // (th)-ն փակագծերով եմ գրել, քերականական մանրունքները անցնելու համար
                         System.err.println("Closed ) but opened " + (char) pop + " at " + (i + 1) + "(th) letter");
