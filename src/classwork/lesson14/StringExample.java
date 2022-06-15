@@ -9,5 +9,6 @@ public class StringExample {
             result.append(" ");
         }
         System.out.println(result);
+
     }
 }

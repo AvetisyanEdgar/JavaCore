@@ -1,25 +1,23 @@
 package classwork.lesson14;
 
 public class Block {
-
     public int a;
-
-    {
-        if (20 > 15) {
-            a = 40;
-        } else {
-            a = 30;
-        }
-
-    }
-
-    static {
-        System.out.println("From static block");
-    }
-     {
-        System.exit(0);
-    }
+    public static int b;
+    //Constructor
     public Block() {
         System.out.println(a);
+    }
+    //Block
+    {
+        System.out.println("Non static Block works before constructor!");
+        if (15 > 12) {
+            a = 15;
+        } else {
+            a = 12;
+        }
+    }
+    //Static Block
+    static {
+        System.out.println("From static Block! Static Block works before non static Block");
     }
 }
