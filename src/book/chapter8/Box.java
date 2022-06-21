@@ -1,4 +1,4 @@
-package book.chapter7;
+package book.chapter8;
 
 public class Box {
     double width;
