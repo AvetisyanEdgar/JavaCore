@@ -1,16 +1,16 @@
-package homework.dynamicArray;
+package classwork.lesson16.students;
 
-public class DynamicArray {
+public class StudentStorage {
 
-    private int[] array = new int[10];
+    private Student[] students = new Student[10];
     private int size = 0;
-    private int index;
+//    private int index;
 
-    public void add(int value) {
-        if (array.length == size) {
+    public void add(Student student) {
+        if (students.length == size) {
             extend();
         }
-        array[size++] = value;
+        students[size++] = student;
     }
 
     //Գրել մեթոդ isEmpty անունով, որը կվերադարձնի true եթե մեր dynamicArray-ի մեջ չունենանք ոչ մի էլեմենտ. Եթե ունենք՝ false
@@ -20,69 +20,77 @@ public class DynamicArray {
     //Գրել մեթոդ add(int index, int value) որը տրված վելյուն կդնի տրված ինդեքսի տեղը, իսկ էղած թիվը ու կողքի բոլոր թվերը կտանի աջ, ոչ մի թիվ չի կորի
     //Գրել մեթոդ delete(int index) որ տանք ինդեքսը, այդ ինդեքսի տակ գտնվող թիվը հեռացնի մասիվից. (նոր մասիվ պետք չէ սարքել)
 
-    public void printArray() {
+    public void printStudents() {
         for (int i = 0; i < size; i++) {
-            System.out.print(array[i] + " ");
+            System.out.println(students[i]);
 
         }
         System.out.println();
     }
 
     private void extend() {
-        int[] temp = new int[array.length + 10];
+        Student[] temp = new Student[students.length + 10];
         for (int i = 0; i < size; i++) {
-            temp[i] = array[i];
+            temp[i] = students[i];
         }
-        array = temp;
+        students = temp;
     }
 
-    public boolean isEmpty(int[] array) {
+    public boolean isEmpty(Student[] array) {
         return (size == 0);
     }
 
-    public int getByIndex(int index) {
+
+    public void deleteByIndex(int index) {
         if (index < 0 || index > size) {
             System.out.println("This index does not exist!");
+        } else {
+            for (int i = index; i < size; i++) {
+                students[i] = students[i + 1];
+            }
+            size--;
         }
-        if (size != 0) {
-            return array[index];
-        } else return 0;
     }
 
-    public int getFirstIndexByValue(int value) {
+    public void add(int index, Student student) {
+        if (index < 0 || index > size) {
+            System.out.println("This index does not exist!");
+            System.out.println();
+        } else {
+            for (int i = index; i < students.length - 1; i++) {
+                students[i + 1] = students[i];
+                students[index] = student;
+            }
+            System.out.println("User has been added");
+        }
+    }
 
+    public void printStudentByLessonName(String lesson) {
         for (int i = 0; i < size; i++) {
-            if (value == array[i]) {
-                index = i;
-                break;
+            if (students[i].getLesson().equals(lesson)) {
+                System.out.println(students[i]);
             }
         }
-        return (index);
-
     }
 
-    public void set(int index, int value) {
-        if (index < 0 || index > size) System.out.println("This index does not exist!");
-        array[index] = value;
-    }
+    public void changeStudentLesson(int index, String newLesson) {
+        if (index < 0 || index > size) {
+            System.out.println("This index does not exist!");
+        } else {
 
-    public void delete(int index) {
-        if (index < 0 || index > size) System.out.println("This index does not exist!");
-        for (int i = index; i < size - 1; i++) {
-            array[i] = array[i + 1];
+
+            students[index].setLesson(newLesson);
+            System.out.println("The lesson name has been changed!");
         }
-        size--;
     }
 
-    public void add(int index, int value) {
-        if (index < 0 || index > size) System.out.println("This index does not exist!");
-        for (int i = index; i < size - 1; i++) {
-            array[i + 1] = array[i];
-            array[index] = value;
-        }
-
-
+    public int getSize() {
+        return size;
     }
+
+
 }
+
+
 
 
