@@ -1,10 +1,12 @@
-package classwork.lesson16.students;
+package classwork.lesson16.students.storage;
+
+import classwork.lesson16.students.model.Lesson;
+import classwork.lesson16.students.model.Student;
 
 public class StudentStorage {
 
     private Student[] students = new Student[10];
     private int size = 0;
-//    private int index;
 
     public void add(Student student) {
         if (students.length == size) {
@@ -12,13 +14,6 @@ public class StudentStorage {
         }
         students[size++] = student;
     }
-
-    //Գրել մեթոդ isEmpty անունով, որը կվերադարձնի true եթե մեր dynamicArray-ի մեջ չունենանք ոչ մի էլեմենտ. Եթե ունենք՝ false
-    //Գրել մեթոդ getStudentByIndex անունով, որը կընդունի ինդեքս, և կվերադարձնի այդ ինդեքսի տակ ընկած թիվը, եթե չկա թող վերադարձնի 0;
-    //Գրել մեթոդ getFirstIndexByValue, որը կընդունի int value, և եթե մեր մասիվի մեջ ունենք այդ թվից, կվերադարձնի իր ինդեքսը. եթե շատ ունենք, պետք է վերադարձնել առաջինի ինդեքսը
-    //Գրել մեթոդ set անունով, որը կընդունի int index, int value և վալյուն կդնի տրված ինդեքսի տեղը(կփոխարինի էղած արժեքին).
-    //Գրել մեթոդ add(int index, int value) որը տրված վելյուն կդնի տրված ինդեքսի տեղը, իսկ էղած թիվը ու կողքի բոլոր թվերը կտանի աջ, ոչ մի թիվ չի կորի
-    //Գրել մեթոդ delete(int index) որ տանք ինդեքսը, այդ ինդեքսի տակ գտնվող թիվը հեռացնի մասիվից. (նոր մասիվ պետք չէ սարքել)
 
     public void printStudents() {
         for (int i = 0; i < size; i++) {
@@ -65,15 +60,15 @@ public class StudentStorage {
         }
     }
 
-    public void printStudentByLessonName(String lesson) {
+    public void printStudentByLessonName(String lessonName) {
         for (int i = 0; i < size; i++) {
-            if (students[i].getLesson().equals(lesson)) {
+            if (students[i].getLesson().getName().equalsIgnoreCase(lessonName)) {
                 System.out.println(students[i]);
             }
         }
     }
 
-    public void changeStudentLesson(int index, String newLesson) {
+    public void changeStudentLesson(int index, Lesson newLesson) {
         if (index < 0 || index > size) {
             System.out.println("This index does not exist!");
         } else {
@@ -89,8 +84,15 @@ public class StudentStorage {
     }
 
 
-}
+    public Student getStudentByIndex(int index) {
+        if (index < 0 || index > size) {
+            return null;
+        } else {
+            return students[index];
 
+        }
+    }
+}
 
 
 

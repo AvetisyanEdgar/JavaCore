@@ -1,0 +1,23 @@
+package book.chapter9.interfacedStackExample;
+
+public class IfTest {
+    public static void main(String[] args) {
+        FixedStack myStack1 = new FixedStack(5);
+        FixedStack myStack2 = new FixedStack(8);
+        // pushing the values in arrays
+        for (int i = 0; i < 5; i++) {
+            myStack1.push(i);
+        }
+        for (int i = 0; i < 8; i++) {
+            myStack2.push(i);
+        }
+        //popping them
+        for (int i = 0; i < 5; i++) {
+            System.out.println(myStack1.pop());
+        }
+        for (int i = 0; i < 8; i++) {
+            System.out.println(myStack2.pop());
+        }
+
+    }
+}

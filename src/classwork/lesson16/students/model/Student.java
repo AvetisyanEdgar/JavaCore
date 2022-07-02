@@ -1,4 +1,6 @@
-package classwork.lesson16.students;
+package classwork.lesson16.students.model;
+
+import classwork.lesson16.students.storage.LessonStorage;
 
 public class Student {
 
@@ -7,19 +9,19 @@ public class Student {
     private int age;
     private String phoneNumber;
     private String city;
-    private String lesson;
+    private Lesson lesson;
 
-    public String getLesson() {
+    public Lesson getLesson() {
         return lesson;
     }
 
-    public void setLesson(String lesson) {
+    public void setLesson(Lesson lesson) {
         this.lesson = lesson;
 
     }
 
     //Սկզբնական գրանցում
-    public Student(String name, String surname, int age, String phoneNumber, String city, String lesson) {
+    public Student(String name, String surname, int age, String phoneNumber, String city, Lesson lesson) {
         this.name = name;
         this.surname = surname;
         this.age = age;
