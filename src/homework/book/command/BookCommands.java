@@ -10,6 +10,5 @@ public interface BookCommands {
     int ADD_AUTHOR = 6;
     int PRINT_ALL_AUTHORS = 7;
     int DELETE_AUTHOR_BY_INDEX = 8;
-
-
+    int PRINT_AUTHOR_BY_INDEX = 9;
 }

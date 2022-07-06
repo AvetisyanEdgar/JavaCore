@@ -62,9 +62,9 @@ public class AuthorStorage {
         return size;
     }
 
-    public Author getAuthorByIndex(int index){
+    public Author getAuthorByIndex(int index) throws AuthorNotFoundException {
         if (index < 0 || index > size){
-            return null;
+            throw new AuthorNotFoundException("There is no author with index " + index);
         }else{
             return authors[index];
         }
