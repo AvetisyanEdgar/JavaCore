@@ -34,16 +34,7 @@ public class AuthorBookDemo implements BookCommands {
         //The main logic
         boolean runAble = true;
         while (runAble) {
-            System.out.println("Input " + EXIT + " to exit the Program");
-            System.out.println("Input " + ADD_BOOK + " to add a book");
-            System.out.println("Input " + PRINT_ALL_BOOKS + " to print all books");
-            System.out.println("Input " + PRINT_BOOKS_BY_AUTHOR_NAME + " to print author's all books");
-            System.out.println("Input " + PRINT_BOOK_BY_GENRE + " to print books with the same genre");
-            System.out.println("Input " + PRINT_BOOKS_BY_PRICE_RANGE + " to sort the books by their price");
-            System.out.println("Input " + ADD_AUTHOR + " to add new Author");
-            System.out.println("Input " + PRINT_ALL_AUTHORS + " to print all Authors");
-            System.out.println("Input " + DELETE_AUTHOR_BY_INDEX + " to delete author");
-            System.out.println("Input " + PRINT_AUTHOR_BY_INDEX + " to print an Author by index");
+            printCommands();
             try {
                 int command = Integer.parseInt(scanner.nextLine());
                 int index;
@@ -153,5 +144,18 @@ public class AuthorBookDemo implements BookCommands {
         } catch (IllegalArgumentException e) {
             System.out.println("Input numbers only");
         }
+    }
+
+    private static void printCommands() {
+        System.out.println("Input " + EXIT + " to exit the Program");
+        System.out.println("Input " + ADD_BOOK + " to add a book");
+        System.out.println("Input " + PRINT_ALL_BOOKS + " to print all books");
+        System.out.println("Input " + PRINT_BOOKS_BY_AUTHOR_NAME + " to print author's all books");
+        System.out.println("Input " + PRINT_BOOK_BY_GENRE + " to print books with the same genre");
+        System.out.println("Input " + PRINT_BOOKS_BY_PRICE_RANGE + " to sort the books by their price");
+        System.out.println("Input " + ADD_AUTHOR + " to add new Author");
+        System.out.println("Input " + PRINT_ALL_AUTHORS + " to print all Authors");
+        System.out.println("Input " + DELETE_AUTHOR_BY_INDEX + " to delete author");
+        System.out.println("Input " + PRINT_AUTHOR_BY_INDEX + " to print an Author by index");
     }
 }
