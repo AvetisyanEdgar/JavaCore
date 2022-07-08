@@ -40,7 +40,7 @@ public class AuthorBookDemo implements BookCommands {
             String InputLogin = scanner.nextLine();
             System.out.println("Input your password" + "\u001B[0m");
             try {
-                int InputPassword = Integer.parseInt(scanner.nextLine());
+                int InputPassword = Integer.parseInt(scanner.nextLine().trim());
                 runAble = (login.equals(InputLogin) && password == InputPassword);
             } catch (IllegalArgumentException e) {
                 System.err.println("The password need to contain numbers only!");
