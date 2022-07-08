@@ -37,7 +37,7 @@ public class AuthorBookDemo implements BookCommands {
         int password = 123456;
         while (!runAble) {
             System.out.println("\u001B[34m" + "Input your login to start");
-            String InputLogin = scanner.nextLine();
+            String InputLogin = scanner.nextLine().trim();
             System.out.println("Input your password" + "\u001B[0m");
             try {
                 int InputPassword = Integer.parseInt(scanner.nextLine().trim());
