@@ -11,10 +11,11 @@ import java.util.Scanner;
 
 public class AuthorBookDemo implements BookCommands {
     //Declaring Objects
-    // final է դրած intellij-ի խորհուրդով
+    //final է դրած intellij-ի խորհուրդով
     private final static BookStorage bookStorage = new BookStorage();
     private final static Scanner scanner = new Scanner(System.in);
     private final static AuthorStorage authorStorage = new AuthorStorage();
+    static boolean runnable = false;
 
     public static void main(String[] args) throws AuthorNotFoundException {
         //Adding some Authors for test
@@ -32,32 +33,15 @@ public class AuthorBookDemo implements BookCommands {
         bookStorage.add(new Book("IT", Stephen, 30, 1, "horror"));
         bookStorage.add(new Book("Apocalypse 3", Maxim, 20, 2, "fantasy"));
         //The main logic
-        String login = "admin";
-        boolean runAble = false;
-        int password = 123456;
-        while (!runAble) {
-            System.out.println("\u001B[34m" + "Input your login to start");
-            String InputLogin = scanner.nextLine().trim();
-            System.out.println("Input your password" + "\u001B[0m");
-            try {
-                int InputPassword = Integer.parseInt(scanner.nextLine().trim());
-                runAble = (login.equals(InputLogin) && password == InputPassword);
-            } catch (IllegalArgumentException e) {
-                System.err.println("The password need to contain numbers only!");
-            }
-            if (!runAble) {
-                System.err.println("Incorrect login or password, please try again");
-
-            }
-        }
-        while (runAble) {
-            printCommands();
+        login();
+        while (runnable) {
+            BookCommands.printCommands();
             try {
                 int command = Integer.parseInt(scanner.nextLine().trim());
                 int index;
                 switch (command) {
                     case EXIT:
-                        runAble = false;
+                        runnable = false;
                         System.out.println("\u001B[33m" + "GoodBye!");
                         break;
                     case ADD_BOOK:
@@ -100,7 +84,7 @@ public class AuthorBookDemo implements BookCommands {
                         }
                         break;
                     default:
-                        System.err.println("Command with index " + command +" does not exist!" );
+                        System.err.println("Command with index " + command + " does not exist!");
                         break;
                 }
             } catch (IllegalArgumentException e) {
@@ -168,16 +152,19 @@ public class AuthorBookDemo implements BookCommands {
         }
     }
 
-    private static void printCommands() {
-        System.out.println("\u001B[35m" + "Input " + EXIT + " to exit the Program");
-        System.out.println("Input " + ADD_BOOK + " to add a book");
-        System.out.println("Input " + PRINT_ALL_BOOKS + " to print all books");
-        System.out.println("Input " + PRINT_BOOKS_BY_AUTHOR_NAME + " to print author's all books");
-        System.out.println("Input " + PRINT_BOOK_BY_GENRE + " to print books with the same genre");
-        System.out.println("Input " + PRINT_BOOKS_BY_PRICE_RANGE + " to sort the books by their price");
-        System.out.println("Input " + ADD_AUTHOR + " to add new Author");
-        System.out.println("Input " + PRINT_ALL_AUTHORS + " to print all Authors");
-        System.out.println("Input " + DELETE_AUTHOR_BY_INDEX + " to delete author");
-        System.out.println("Input " + PRINT_AUTHOR_BY_INDEX + " to print an Author by index" + "\u001B[0m");
+    static void login() {
+        while (!runnable) {
+            String login = "admin";
+            String password = "123456";
+            System.out.println("\u001B[34m" + "Input your login to start");
+            String inputLogin = scanner.nextLine().trim();
+            System.out.println("Input your password" + "\u001B[0m");
+            String inputPassword = scanner.nextLine().trim();
+            runnable = password.equals(inputPassword) && login.equals(inputLogin);
+            if (!runnable){
+                System.err.println("Wrong login or password. Try again!");
+                login();
+            }
+        }
     }
 }
