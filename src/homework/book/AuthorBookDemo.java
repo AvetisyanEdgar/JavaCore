@@ -1,41 +1,56 @@
 package homework.book;
 
 import homework.book.command.BookCommands;
+import homework.book.model.Role;
+import homework.book.model.User;
 import homework.book.storage.AuthorNotFoundException;
 import homework.book.storage.AuthorStorage;
 import homework.book.storage.BookStorage;
 import homework.book.model.Book;
 import homework.book.model.Author;
+import homework.book.storage.UserStorage;
 
+import java.util.Locale;
 import java.util.Scanner;
 
 public class AuthorBookDemo implements BookCommands {
     //Declaring Objects
-    //final է դրած intellij-ի խորհուրդով
     private final static BookStorage bookStorage = new BookStorage();
     private final static Scanner scanner = new Scanner(System.in);
     private final static AuthorStorage authorStorage = new AuthorStorage();
-    static boolean runnable = false;
+    private final static UserStorage userStorage = new UserStorage();
+    private static User currentUser = null;
+    static boolean runnable = true;
 
     public static void main(String[] args) throws AuthorNotFoundException {
-        //Adding some Authors for test
-        Author Stephen = new Author("Stephen", "King", "StephenKing@gmail.com", "MALE");
-        AuthorStorage.add(Stephen);
-        Author Shield = new Author("Herbert", "Shield", "HerbertSield@gmail.com", "MALE");
-        AuthorStorage.add(Shield);
-        Author Shakespeare = new Author("Shakespeare", "", "Shakespeare@gmail.com", "MALE");
-        AuthorStorage.add(Shakespeare);
-        Author Maxim = new Author("Maxim", "Maxim", "MaxMaximov@mail.ru", "MALE");
-        AuthorStorage.add(Maxim);
-        // Adding some books for test
-        bookStorage.add(new Book("Romeo and Juliet", Shakespeare, 20.5, 2, "classical"));
-        bookStorage.add(new Book("Java", Shield, 15.0, 4, "technical"));
-        bookStorage.add(new Book("IT", Stephen, 30, 1, "horror"));
-        bookStorage.add(new Book("Apocalypse 3", Maxim, 20, 2, "fantasy"));
+
+        initData();
+        while (runnable) {
+            BookCommands.printLoginCommands();
+            int command;
+            try {
+                command = Integer.parseInt(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                command = -1;
+            }
+            switch (command) {
+                case EXIT:
+                    runnable = false;
+                    break;
+                case LOGIN:
+                    login();
+                    break;
+                case REGISTER:
+                    register();
+                    break;
+                default:
+                    System.out.println("Invalid command");
+            }
+        }
         //The main logic
         login();
         while (runnable) {
-            BookCommands.printCommands();
+            BookCommands.printUserCommands();
             try {
                 int command = Integer.parseInt(scanner.nextLine().trim());
                 int index;
@@ -91,6 +106,48 @@ public class AuthorBookDemo implements BookCommands {
                 System.out.println("Input Number!");
             }
         }
+    }
+
+    private static void register() {
+        System.out.println("Input your name, surname, email and passwords with commas");
+        String userDataStr = scanner.nextLine();
+        String[] userData = userDataStr.split(",");
+        if (userData.length < 4) {
+            System.out.println("Incorrect data");
+        }
+        if (userStorage.getUserByEmail(userData[2]) == null) {
+            User user = new User();
+            user.setName(userData[0].trim());
+            user.setSurname(userData[1].trim());
+            user.setEmail(userData[2].trim());
+            user.setPassword(userData[3].trim());
+            user.setRole(Role.USER);
+            System.out.println("User has been created");
+            UserStorage.add(user);
+        } else {
+            System.out.println("User with email " + userData[2] + " already exists!");
+        }
+    }
+
+    private static void initData() {
+        //Adding some Authors for test
+        Author Stephen = new Author("Stephen", "King", "StephenKing@gmail.com", "MALE");
+        AuthorStorage.add(Stephen);
+        Author Shield = new Author("Herbert", "Shield", "HerbertSield@gmail.com", "MALE");
+        AuthorStorage.add(Shield);
+        Author Shakespeare = new Author("Shakespeare", "", "Shakespeare@gmail.com", "MALE");
+        AuthorStorage.add(Shakespeare);
+        Author Maxim = new Author("Maxim", "Maxim", "MaxMaximov@mail.ru", "MALE");
+        AuthorStorage.add(Maxim);
+        // Adding some books for test
+        bookStorage.add(new Book("Romeo and Juliet", Shakespeare, 20.5, 2, "classical"));
+        bookStorage.add(new Book("Java", Shield, 15.0, 4, "technical"));
+        bookStorage.add(new Book("IT", Stephen, 30, 1, "horror"));
+        bookStorage.add(new Book("Apocalypse 3", Maxim, 20, 2, "fantasy"));
+        User admin = new User("Andy", "Fox", "AndyAdmin@gmail.com", "AndyPass", Role.ADMIN);
+        UserStorage.add(admin);
+        User user = new User("Michael", "McLauren", "mic@gmail.com", "mickey", Role.USER, currentUser);
+        UserStorage.add(user);
 
     }
 
@@ -102,7 +159,7 @@ public class AuthorBookDemo implements BookCommands {
         System.out.println("Input Author's email");
         String email = scanner.nextLine();
         System.out.println("Input Author's gender");
-        String gender = scanner.nextLine();
+        String gender = scanner.nextLine().toUpperCase(Locale.ROOT);
         Author author = new Author(name, surname, email, gender);
         AuthorStorage.add(author);
         System.out.println("The Author has been created");
@@ -152,19 +209,138 @@ public class AuthorBookDemo implements BookCommands {
         }
     }
 
-    static void login() {
-        while (!runnable) {
-            String login = "admin";
-            String password = "123456";
-            System.out.println("\u001B[34m" + "Input your login to start");
-            String inputLogin = scanner.nextLine().trim();
-            System.out.println("Input your password" + "\u001B[0m");
-            String inputPassword = scanner.nextLine().trim();
-            runnable = password.equals(inputPassword) && login.equals(inputLogin);
-            if (!runnable){
-                System.err.println("Wrong login or password. Try again!");
-                login();
+    static void login() throws AuthorNotFoundException {
+        System.out.println("Input your email and password with comma");
+        String emailPasswordStr = scanner.nextLine();
+        String[] emailPassword = emailPasswordStr.split(",");
+        User user = userStorage.getUserByEmail(emailPassword[0]);
+        if (user == null) {
+            System.out.println("User with this email " + emailPassword[0] + " does not exist");
+        } else {
+            if (user.getPassword().equals(emailPassword[1])) {
+                currentUser = user;
+                if (user.getRole().equals(Role.ADMIN)) {
+                    loginAdmin();
+                } else if (user.getRole().equals(Role.USER)) {
+                    loginUser();
+                }
             }
         }
+    }
+
+    private static void loginUser() throws AuthorNotFoundException {
+        boolean run = true;
+        while (run) {
+            BookCommands.printUserCommands();
+            int command;
+            try {
+                command = Integer.parseInt(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                command = -1;
+            }
+            switch (command) {
+                case LOGOUT:
+                    run = false;
+                    break;
+                case PRINT_ALL_BOOKS:
+                    bookStorage.printAllBooks();
+                    break;
+                case PRINT_BOOKS_BY_AUTHOR_NAME:
+                    printBooksByAuthorName();
+                    break;
+                case PRINT_BOOK_BY_GENRE:
+                    printBookByGenre();
+                    break;
+                case PRINT_BOOKS_BY_PRICE_RANGE:
+                    System.out.println("Input the lowest price");
+                    double lowest = scanner.nextDouble();
+                    double highest = scanner.nextDouble();
+                    bookStorage.PrintBooksByPriceRange(lowest, highest);
+                    break;
+                case PRINT_ALL_AUTHORS:
+                    authorStorage.printAuthors();
+                    break;
+                case PRINT_AUTHOR_BY_INDEX:
+                    authorStorage.printAuthors();
+                    System.out.println("Input author's index");
+                    int authorIndex = 0;
+                    try {
+                        authorIndex = Integer.parseInt(scanner.nextLine());
+                    } catch (NumberFormatException e) {
+                        System.out.println("Input numbers only!");
+                    }
+                    authorStorage.getAuthorByIndex(authorIndex);
+                    break;
+            }
+        }
+    }
+
+    private static void loginAdmin() throws AuthorNotFoundException {
+        boolean run = true;
+        while (run) {
+            BookCommands.printAdminCommands();
+            int command;
+            try {
+                command = Integer.parseInt(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                command = -1;
+            }
+            switch (command) {
+                case LOGOUT:
+                    run = false;
+                    break;
+                case ADD_BOOK:
+                    addBook();
+                    break;
+                case PRINT_ALL_BOOKS:
+                    bookStorage.printAllBooks();
+                    break;
+                case PRINT_BOOKS_BY_AUTHOR_NAME:
+                    printBooksByAuthorName();
+                    break;
+                case PRINT_BOOK_BY_GENRE:
+                    printBookByGenre();
+                    break;
+                case PRINT_BOOKS_BY_PRICE_RANGE:
+                    System.out.println("Input the lowest price");
+                    double lowest = scanner.nextDouble();
+                    double highest = scanner.nextDouble();
+                    bookStorage.PrintBooksByPriceRange(lowest, highest);
+                    break;
+                case ADD_AUTHOR:
+                    addAuthor();
+                    break;
+                case PRINT_ALL_AUTHORS:
+                    authorStorage.printAuthors();
+                    break;
+                case DELETE_AUTHOR_BY_INDEX:
+                    authorStorage.printAuthors();
+                    System.out.println("Choose author's index");
+                    int index = 0;
+                    try {
+                        index = Integer.parseInt(scanner.nextLine());
+                    } catch (NumberFormatException e) {
+                        System.out.println("Input numbers only!");
+                    }
+                    authorStorage.deleteAuthorByIndex(index);
+                    break;
+                case PRINT_AUTHOR_BY_INDEX:
+                    authorStorage.printAuthors();
+                    System.out.println("Input author's index");
+                    int authorIndex = 0;
+                    try {
+                        authorIndex = Integer.parseInt(scanner.nextLine());
+                    } catch (NumberFormatException e) {
+                        System.out.println("Input numbers only!");
+                    }
+                    authorStorage.getAuthorByIndex(authorIndex);
+                    break;
+                case PRINT_ALL_USERS:
+                    printAllUsers();
+            }
+        }
+    }
+    public static void printAllUsers(){
+        userStorage.printUsers();
     }
 }

@@ -1,39 +1,24 @@
 package classwork.lesson16.students.model;
 
-import classwork.lesson16.students.storage.LessonStorage;
-
 public class Student {
-
     private String name;
     private String surname;
     private int age;
     private String phoneNumber;
     private String city;
     private Lesson lesson;
+    private User registeredUser;
 
-    public Lesson getLesson() {
-        return lesson;
-    }
-
-    public void setLesson(Lesson lesson) {
-        this.lesson = lesson;
-
-    }
-
-    //Սկզբնական գրանցում
-    public Student(String name, String surname, int age, String phoneNumber, String city, Lesson lesson) {
+    public Student(String name, String surname, int age, String phoneNumber, String city, Lesson lesson, User registeredUser) {
         this.name = name;
         this.surname = surname;
         this.age = age;
         this.phoneNumber = phoneNumber;
         this.city = city;
         this.lesson = lesson;
+        this.registeredUser = registeredUser;
     }
 
-    public Student() {
-    }
-
-    // հետագա փոփոխությունների համար
     public String getName() {
         return name;
     }
@@ -48,14 +33,6 @@ public class Student {
 
     public void setSurname(String surname) {
         this.surname = surname;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
     }
 
     public String getPhoneNumber() {
@@ -74,6 +51,30 @@ public class Student {
         this.city = city;
     }
 
+    public Lesson getLesson() {
+        return lesson;
+    }
+
+    public void setLesson(Lesson lesson) {
+        this.lesson = lesson;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public User getRegisteredUser() {
+        return registeredUser;
+    }
+
+    public void setRegisteredUser(User registeredUser) {
+        this.registeredUser = registeredUser;
+    }
+
     @Override
     public String toString() {
         return "Student{" +
@@ -82,8 +83,8 @@ public class Student {
                 ", age=" + age +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", city='" + city + '\'' +
-                ", lesson='" + lesson + '\'' +
+                ", lesson=" + lesson +
+                ", registeredUser=" + registeredUser +
                 '}';
     }
 }
-
