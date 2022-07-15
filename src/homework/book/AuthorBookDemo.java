@@ -19,7 +19,7 @@ public class AuthorBookDemo implements BookCommands {
     private final static Scanner scanner = new Scanner(System.in);
     private final static AuthorStorage authorStorage = new AuthorStorage();
     private final static UserStorage userStorage = new UserStorage();
-    private static User currentUser = null;
+    private static User registeredUser = null;
     static boolean runnable = true;
 
     public static void main(String[] args) throws AuthorNotFoundException {
@@ -131,22 +131,23 @@ public class AuthorBookDemo implements BookCommands {
 
     private static void initData() {
         //Adding some Authors for test
-        Author Stephen = new Author("Stephen", "King", "StephenKing@gmail.com", "MALE");
+        Author Stephen = new Author("Stephen", "King", "StephenKing@gmail.com", "MALE", registeredUser);
         AuthorStorage.add(Stephen);
-        Author Shield = new Author("Herbert", "Shield", "HerbertSield@gmail.com", "MALE");
+        Author Shield = new Author("Herbert", "Shield", "HerbertSield@gmail.com", "MALE", registeredUser);
         AuthorStorage.add(Shield);
-        Author Shakespeare = new Author("Shakespeare", "", "Shakespeare@gmail.com", "MALE");
+        Author Shakespeare = new Author("Shakespeare", "", "Shakespeare@gmail.com", "MALE", registeredUser);
         AuthorStorage.add(Shakespeare);
-        Author Maxim = new Author("Maxim", "Maxim", "MaxMaximov@mail.ru", "MALE");
+        Author Maxim = new Author("Maxim", "Maxim", "MaxMaximov@mail.ru", "MALE", registeredUser);
         AuthorStorage.add(Maxim);
         // Adding some books for test
         bookStorage.add(new Book("Romeo and Juliet", Shakespeare, 20.5, 2, "classical"));
         bookStorage.add(new Book("Java", Shield, 15.0, 4, "technical"));
         bookStorage.add(new Book("IT", Stephen, 30, 1, "horror"));
         bookStorage.add(new Book("Apocalypse 3", Maxim, 20, 2, "fantasy"));
+        //I added one admin and one user for test
         User admin = new User("Andy", "Fox", "AndyAdmin@gmail.com", "AndyPass", Role.ADMIN);
         UserStorage.add(admin);
-        User user = new User("Michael", "McLauren", "mic@gmail.com", "mickey", Role.USER, currentUser);
+        User user = new User("Michael", "McLauren", "mic@gmail.com", "mickey", Role.USER);
         UserStorage.add(user);
 
     }
@@ -160,7 +161,7 @@ public class AuthorBookDemo implements BookCommands {
         String email = scanner.nextLine();
         System.out.println("Input Author's gender");
         String gender = scanner.nextLine().toUpperCase(Locale.ROOT);
-        Author author = new Author(name, surname, email, gender);
+        Author author = new Author(name, surname, email, gender, registeredUser);
         AuthorStorage.add(author);
         System.out.println("The Author has been created");
     }
@@ -218,7 +219,7 @@ public class AuthorBookDemo implements BookCommands {
             System.out.println("User with this email " + emailPassword[0] + " does not exist");
         } else {
             if (user.getPassword().equals(emailPassword[1])) {
-                currentUser = user;
+                registeredUser = user;
                 if (user.getRole().equals(Role.ADMIN)) {
                     loginAdmin();
                 } else if (user.getRole().equals(Role.USER)) {
@@ -340,7 +341,8 @@ public class AuthorBookDemo implements BookCommands {
             }
         }
     }
-    public static void printAllUsers(){
+
+    public static void printAllUsers() {
         userStorage.printUsers();
     }
 }

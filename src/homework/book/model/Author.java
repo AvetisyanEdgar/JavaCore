@@ -5,12 +5,14 @@ public class Author {
     private String surname;
     private String email;
     private String gender;
+    private User registeredUser;
 
-    public Author(String name, String surname, String email, String gender) {
+    public Author(String name, String surname, String email, String gender, User user) {
         this.name = name;
         this.surname = surname;
         this.email = email;
         this.gender = gender;
+        this.registeredUser = user;
     }
 
     public String getName() {
@@ -45,6 +47,14 @@ public class Author {
         this.gender = gender;
     }
 
+    public User getRegisteredUser() {
+        return registeredUser;
+    }
+
+    public void setRegisteredUser(User registeredUser) {
+        this.registeredUser = registeredUser;
+    }
+
     @Override
     public String toString() {
         return "Author{" +
@@ -52,6 +62,7 @@ public class Author {
                 ", surname='" + surname + '\'' +
                 ", email='" + email + '\'' +
                 ", gender='" + gender + '\'' +
+                ", registeredUser=" + registeredUser +
                 '}';
     }
 }

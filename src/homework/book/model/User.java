@@ -6,16 +6,6 @@ public class User {
     private String email;
     private String password;
     private Role role;
-    private User registeredUser;
-
-    public User(String name, String surname, String email, String password, Role role, User registeredUser) {
-        this.name = name;
-        this.surname = surname;
-        this.email = email;
-        this.password = password;
-        this.role = role;
-        this.registeredUser = registeredUser;
-    }
 
     public User(String name, String surname, String email, String password, Role role) {
         this.name = name;
@@ -68,13 +58,6 @@ public class User {
         this.role = role;
     }
 
-    public User getRegisteredUser() {
-        return registeredUser;
-    }
-
-    public void setRegisteredUser(User registeredUser) {
-        this.registeredUser = registeredUser;
-    }
 
     @Override
     public String toString() {
@@ -83,7 +66,6 @@ public class User {
                 ", surname='" + surname + '\'' +
                 ", email='" + email + '\'' +
                 ", role=" + role +
-                ", user=" + registeredUser +
                 '}';
     }
 }

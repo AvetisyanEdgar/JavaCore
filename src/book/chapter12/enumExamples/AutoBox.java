@@ -1,4 +1,4 @@
-package book.chapter12;
+package book.chapter12.enumExamples;
 
 public class AutoBox {
     public static void main(String[] args) {

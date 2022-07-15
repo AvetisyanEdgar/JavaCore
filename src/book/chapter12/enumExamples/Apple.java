@@ -1,4 +1,4 @@
-package book.chapter12;
+package book.chapter12.enumExamples;
 
 public enum Apple {
     Jonathan(10),
