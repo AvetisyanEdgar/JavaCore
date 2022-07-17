@@ -15,5 +15,6 @@ public class FileExample {
         System.out.println("is file: " + myFile.isFile());
         System.out.println("is directory: " + myFile.isDirectory());
         System.out.println(myFile);
+        System.out.println(myFile.separator);
     }
 }
