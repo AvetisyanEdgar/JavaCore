@@ -1,16 +1,13 @@
 package homework.fileUtil;
 
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
-
 import java.io.*;
 import java.util.Scanner;
 
 public class FileUtil {
-    static String path;
     private static final Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) throws IOException {
-        createFileWithContent();
+        findLines();
     }
 
     //այս մեթոդը պետք է սքաններով վերցնի երկու string.
@@ -19,7 +16,7 @@ public class FileUtil {
     //Որպես արդյունք պտի ծրագիրը տպի true եթե կա էդ ֆայլը էդ պապկի մեջ, false եթե չկա։
     static boolean fileSearch() {
         System.out.println("Input path");
-        path = scanner.nextLine();
+        String path = scanner.nextLine();
         System.out.println("Input file name");
         String fileName = scanner.nextLine();
         return (path.contains(fileName));
@@ -32,7 +29,7 @@ public class FileUtil {
     // մեր տված keyword-ը, եթե գտնի, պետք է տպի տվյալ ֆայլի անունը։
     static void contentSearch() throws IOException {
         System.out.println("Input path");
-        path = scanner.nextLine();
+        String path = scanner.nextLine();
         File folder = new File(path);
         if (folder.exists() && folder.isDirectory()) {
             System.out.println("Input keyword");
@@ -69,12 +66,12 @@ public class FileUtil {
             System.out.println("Input keyword");
             String keyword = scanner.nextLine();
             BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
-            for (int i = 1; i < file.length(); i++) {
-                String line;
-                if ((line = bufferedReader.readLine()) != null) {
-                    if (line.equals(keyword)) {
-                        System.out.println(i + ". " + line);
-                    }
+            String line = "";
+            int lineCount = 0;
+            while ((line = bufferedReader.readLine()) != null) {
+                lineCount++;
+                if (line.contains(keyword)) {
+                    System.out.println(lineCount + ". " + line);
                 }
             }
         }
@@ -114,7 +111,7 @@ public class FileUtil {
             file.createNewFile();
             try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(path + File.pathSeparator + fileName))) {
                 bufferedWriter.write(content);
-            }catch (IOException e){
+            } catch (IOException e) {
                 System.out.println(e.getMessage());
             }
         }

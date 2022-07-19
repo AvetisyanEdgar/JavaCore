@@ -1,7 +1,5 @@
 this
 is
-test
-file
-with
-some
-lines
+test file with
+some lines to
+check how method works
